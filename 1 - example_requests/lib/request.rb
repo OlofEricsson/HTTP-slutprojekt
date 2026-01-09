@@ -1,5 +1,7 @@
 class Request
 
+  attr_reader :method, :resource, :version, :headers, :params
+
   def initialize(fileContent)
     @content = fileContent
     #p(@content)
@@ -11,29 +13,10 @@ class Request
     acc_lang, lang = row3.split(": ")
     @headers = {host => hoster, acc_lang => lang}
     @params = row4 = {}
-    p(@params)
 
   end
 
-  def resource()
-    return @resource
-  end
-
-  def resource()
-    return @resource
-  end
-
-  def resource()
-    return @resource
-  end
-
-  def resource()
-    return @resource
-  end
   
-  def resource()
-    return @resource
-  end
 
 end
 
