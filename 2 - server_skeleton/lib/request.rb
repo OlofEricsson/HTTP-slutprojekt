@@ -1,5 +1,6 @@
 require 'debug'
 
+
 class Request
 
   attr_reader :method, :resource, :version, :headers, :params
@@ -31,13 +32,17 @@ class Request
       if @method == "GET"
         holder = @resource
         #binding.break
-        holder = holder.split("?")
-        holder.delete_at(0)
-        holder = holder[0]
-        holder = holder.split("&")
-        holder.each do |param|
-          param = param.split("=")
-          @params[param[0]] = param[1]
+        if holder.include?("?")
+          holder = holder.split("?")
+          holder.delete_at(0)
+          holder = holder[0]
+          holder = holder.split("&")
+          holder.each do |param|
+            param = param.split("=")
+            @params[param[0]] = param[1]
+          end
+        else
+          @params = {}
         end
       elsif @method == "POST"
         #binding.break

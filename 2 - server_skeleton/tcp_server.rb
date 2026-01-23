@@ -1,10 +1,13 @@
 require 'socket'
+require_relative 'lib/request'
 
 class HTTPServer
 
   def initialize(port)
     @port = port
   end
+
+  def find_routes
 
   def start
     server = TCPServer.new(@port)
@@ -20,12 +23,33 @@ class HTTPServer
       puts data
       puts '-' * 40
 
-      #request = Request.new(data)
+      status = 404
+      content_type = "html"
 
-      html = "<h1>Hello, World!</h1>"
+      request = Request.new(data)
+      p request
 
-      session.print "HTTP/1.1 200\r\n"
-      session.print "Content-Type: text/html\r\n"
+      routes = [
+        {resource: "/hello/:name", html: "<h1>Hello</h1>\n"},
+        {resource: "/wat", html: "<h1>wat</h1>"},
+        {resource: "/wat/pannkaka", html: File.read("views/hello.html")}]
+
+      html = "<h1>Error #{status}</h1>"
+      routes.each do |rot|
+        if request.resource == rot[:resource]
+          html = rot[:html]
+          status = 200
+        end
+      end
+
+      # if request.resource == "/hello"
+      #   html = "<h1>Hello, World!</h1>"
+      # else
+      #    html = "<h1>WAT</h1>"
+      # end
+
+      session.print "HTTP/1.1 #{status}\r\n"
+      session.print "Content-Type: text/#{content_type}\r\n"
       session.print "\r\n"
       session.print html
       session.close

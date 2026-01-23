@@ -3,8 +3,8 @@ require_relative '../lib/request'
 
 class RequestTest < Minitest::Test
 
-  """
   def test_parses_http_method_from_simple_get
+    skip "not used"
     request_string = File.read('../get-index.request.txt')
     request = Request.new(request_string)
 
@@ -12,6 +12,7 @@ class RequestTest < Minitest::Test
   end
 
   def test_parses_resource_from_simple_get
+    skip "not used"
     request_string = File.read('../get-index.request.txt')
     request = Request.new(request_string)
 
@@ -19,12 +20,12 @@ class RequestTest < Minitest::Test
   end
 
   def test_parses_version_from_simple_get
+    skip "not used"
     request_string = File.read('../get-index.request.txt')
     request = Request.new(request_string)
 
     assert_equal 'HTTP/1.1', request.version
   end
-  """
 
 
   def test_parses_http_method_from_simple_get
@@ -50,7 +51,7 @@ class RequestTest < Minitest::Test
   end
 
   def test_parses_version_from_simple_get
-    request_string = File.read('../get-fruits-with-filter.request.txt')
+    request_string = File.read('../post-login.request.txt')
     request = Request.new(request_string)
 
     assert_equal 'HTTP/1.1', request.version
