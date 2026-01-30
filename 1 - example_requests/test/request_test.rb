@@ -1,5 +1,5 @@
 require_relative 'spec_helper'
-require_relative '../lib/request'
+require_relative '/2 - server_skeleton/lib/request.rb'
 
 class RequestTest < Minitest::Test
 
