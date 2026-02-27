@@ -42,6 +42,21 @@ class HTTPServer
 
       html = "<h1>Error #{status} page not found</h1>"
 
+      #Om det är en post så finns det en nyckel med namnet Content-Length
+
+      #p request.method   #=> 'POST'
+      #p request.resource #=> '/login'
+      #p request.version  #=> 'HTTP/1.1'
+      #p request.headers  #=> {'Host' => 'foo.example',
+      #                        'Content-Type' => 'application/x-www-form-urlencoded',
+      #                        'Content-Length' => '39'}
+      #p request.params   #=> {'username' => 'grillkorv', 'password' => 'verys3cret!'}
+
+      if request.headers.has_key?('Content-Length')
+        #det vi skickar in är en post
+        content_length = request.headers[:Content-Length] #man kan inte ha bindestreck ¯\_(ツ)_/¯
+      end
+
       if File.exist?("./public#{request.resource}")
         p (request.resource)
         html = File.binread("./public#{request.resource}")
@@ -49,7 +64,7 @@ class HTTPServer
         type = request.resource.split(".")
         content = mime_map["#{type[1]}"]
       else
-        routes.each do |rot|
+        routes.routes.each do |rot|
           if request.resource == rot[:resource]
            html = rot[:html]
             status = 200

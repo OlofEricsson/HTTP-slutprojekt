@@ -1,30 +1,13 @@
 require_relative 'tcp_server.rb'
+require_relative 'lib/Routes.rb'
 
-routes = [
-        {resource: "/hello/name", 
-        content_type: "html", 
-        
-        html: "<h1>Hello</h1>\n"},
+r = Router.new()
 
-        {resource: "/wat", 
-        content_type: "html", 
-        
-        html: "<h1>wat</h1>"},
+r.get("/banan/paj") do
+  File.binread("./public/hello.html")
+end
 
-        {resource: "/wat/pannkaka", 
-        content_type: "html", 
-        
-        html: File.binread("./public/hello.html")},
+#print(r.routes[0][:method])
 
-        {resource: "/fancy", 
-        content_type: "css", 
-        
-        css: File.binread("views/hello.css")},
-
-        {resource: "/", 
-        content_type: "html", 
-        
-        html: "<h1>Home</h1>\n"}]
-
-server = HTTPServer.new(4567, routes)
+server = HTTPServer.new(4567, r)
 server.start
