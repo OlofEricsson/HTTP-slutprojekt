@@ -6,11 +6,11 @@ class Router
     @routes = []
   end
 
-  def get(resource)
+  
 
-    content = yield
-    @routes << {method: "GET", resource: resource, html: content}
-
+  def get(resource, &block)
+    #mysyperregex =  build this from resource "/add/:num1/:num2" 
+    @routes << {method: "GET",resource: v, block: block} #v ska vara mysuperegex resultataet tror jag
   end
 
   def post(resource)
@@ -18,4 +18,5 @@ class Router
     content = yield
     @routes << {method: "POST", resource: resource, html: content}
   end
+
 end

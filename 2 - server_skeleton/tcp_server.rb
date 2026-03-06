@@ -62,13 +62,13 @@ class HTTPServer
         html = File.binread("./public#{request.resource}")
         status = 200
         type = request.resource.split(".")
-        content = mime_map["#{type[1]}"]
+        content_type = mime_map["#{type[1]}"]
       else
         routes.routes.each do |rot|
           if request.resource == rot[:resource]
-           html = rot[:html]
+            html = rot[:block].call([3,5])
             status = 200
-            content_type = rot[:content_type]
+            content_type = "text/html"
           end
         end
       end
@@ -76,9 +76,9 @@ class HTTPServer
       content_length = html.bytesize
       #ska bli en klass, Response
       session.print "HTTP/1.1 #{status}\r\n"
-      session.print "Content-Type: #{content}\r\n"
+      session.print "Content-Type: #{content_type}\r\n"
       session.print "Content-Length: #{content_length}\r\n"
-      p ("Content-Type: #{content}\r\n")
+      p ("Content-Type: #{content_type}\r\n")
       session.print "\r\n"
       session.print html
       session.close
