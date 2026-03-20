@@ -8,8 +8,8 @@ r.get("/banan/paj") do |params|
   File.binread("./public/hello.html")
 end
 
-r.get("/add/:num1/:num2") do |grillkorv, num2|
-  return "#{grillkorv}.to_i + num2.to_i}"
+r.get("/add/:num1/and/:num2") do |grillkorv, num2|
+  "<h1>#{grillkorv.to_i + num2.to_i}</h1>"
 
 end
 

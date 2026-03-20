@@ -41,6 +41,8 @@ class Request
             param = param.split("=")
             @params[param[0]] = param[1]
           end
+        elsif holder.match?(/(\/:\w+)+/)
+          
         else
           @params = {}
         end

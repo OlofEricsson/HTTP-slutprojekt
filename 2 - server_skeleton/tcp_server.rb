@@ -54,7 +54,7 @@ class HTTPServer
 
       if request.headers.has_key?('Content-Length')
         #det vi skickar in är en post
-        content_length = request.headers[:Content-Length] #man kan inte ha bindestreck ¯\_(ツ)_/¯
+        content_length = request.headers['Content-Length'].to_i #man kan inte ha bindestreck ¯\_(ツ)_/¯
       end
 
       if File.exist?("./public#{request.resource}")
@@ -65,8 +65,12 @@ class HTTPServer
         content_type = mime_map["#{type[1]}"]
       else
         routes.routes.each do |rot|
-          if request.resource == rot[:resource]
-            html = rot[:block].call([3,5])
+
+          p rot[:resource]
+          if request.method == rot[:method] && request.resource.match?(rot[:resource])
+            banan = request.resource.match(rot[:resource])
+            p banan.captures
+            html = rot[:block].call(banan.captures) #behöver kunna hämta parametrarna
             status = 200
             content_type = "text/html"
           end
