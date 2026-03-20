@@ -33,7 +33,7 @@ def regexmaker(resource)
       
       res = resource
       regexpbuilder = //
-      if res.match?(/(\/:\w+)+/) #kollar om strängen innehåller en ordförld efter "/" med ett ":"och några tecken
+      if res.match?(/(\/:\w+)+/) #kollar om strängen innehåller en ordföljd efter "/" med ett ":"och några tecken
             res = Regexp.new(res)
 
             new_pattern = res.source.gsub(/\/:\w+/, "\/(\\w+)+")
@@ -45,21 +45,3 @@ def regexmaker(resource)
       end
 
 end
-
-=begin
-p regexmaker("fgh/:jk/bhubb/:banan")
- (\/:\w+)+
-
-
-p regexmaker("/add/:banan/and/:paj")
-p /\/add(\/\w+)+\/and(\/\w+)+/
-
-if "/add/3/and/7".match?(/\/add(\/\w+)+\/and(\/\w+)+/)
-      p true
-else
-      p false
-end
-=end
-
-p regexmaker("/hej/:banan/dig/:paj")
-p /\/hej(\/\w+)+\/dig(\/\w+)+/

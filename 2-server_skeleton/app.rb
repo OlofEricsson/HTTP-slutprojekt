@@ -13,11 +13,18 @@ r.get("/add/:num1/and/:num2") do |grillkorv, num2|
 
 end
 
-r.get("/hejsan") do
+r.get("/hejsan/") do
   "<h1>Hello</h1>"
 end
 
-#print(r.routes[0][:method])
+r.get("/") do
+  "<h1>Welcome home</h1>"
+end
+r.get("/hej") do
+  "<h1>banan</h1>"
+end
+
+#p (r.routes[0][:method])
 
 server = HTTPServer.new(4567, r)
 server.start
