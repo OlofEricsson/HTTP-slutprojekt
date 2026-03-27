@@ -1,30 +1,41 @@
 require_relative 'regexmaker.rb'
+require_relative 'Mime'
 
 class Router
 
   attr_reader :routes
+  attr_reader :block #kanske returnerar fel sak?
 
   def initialize()
     @routes = []
   end
 
-  
-
   def get(resource, &block)
-    #mysyperregex =  build this from resource "/add/:num1/:num2" 
     mysuperregex = regexmaker(resource)
-    @routes << {method: "GET",resource: mysuperregex, block: block} #v ska vara mysuperegex resultataet tror jag
-  end
-
-  def post(resource)
-
-    content = yield
-    @routes << {method: "POST", resource: resource, html: content}
+    @routes << {method: "GET", resource: mysuperregex, block: block}
   end
 
   def post(resource, &block)
-    #mysyperregex =  build this from resource "/add/:num1/:num2" 
-    @routes << {method: "POST",resource: resource, block: block} #v ska vara mysuperegex resultataet tror jag
+    @routes << {method: "POST", resource: resource, block: block}
+  end
+
+  def match(request)
+
+    found = false
+    @routes.each do |rot|
+      method = rot[:method]
+      resource = rot[:resource]
+      if request.method == method && request.resource.match?(resource)
+        found = true
+        banan = request.resource.match(resource)
+        captures = banan.captures
+        @block = rot[:block].call(captures)
+      end
+      if found
+        break
+      end
+    end
+    return found
   end
 
 end
